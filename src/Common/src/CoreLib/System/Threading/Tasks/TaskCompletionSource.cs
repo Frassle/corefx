@@ -332,9 +332,15 @@ namespace System.Threading.Tasks
         /// <see cref="System.Threading.Tasks.TaskStatus.Canceled">Canceled</see>.
         /// </exception>
         /// <exception cref="System.ObjectDisposedException">The <see cref="Task"/> was disposed.</exception>
-        public void SetCanceled()
+        public void SetCanceled(CancellationToken cancellationToken)
         {
-            if (!TrySetCanceled())
+            SetCanceled(default);
+        }
+
+        // Enables a token to be stored into the canceled task
+        public void SetCanceled(CancellationToken cancellationToken)
+        {
+            if (!TrySetCanceled(cancellationToken))
                 ThrowHelper.ThrowInvalidOperationException(ExceptionResource.TaskT_TransitionToFinal_AlreadyCompleted);
         }
     }
